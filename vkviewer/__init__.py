@@ -21,9 +21,15 @@ from sqlalchemy import create_engine, engine_from_config
 from sqlalchemy.orm import sessionmaker, scoped_session
 from zope.sqlalchemy import ZopeTransactionExtension
 
+BASE_PATH = os.path.dirname(os.path.realpath(__file__))
+BASE_PATH_PARENT = os.path.abspath(os.path.join(BASE_PATH, os.pardir))
+ROOT_PATH = os.path.abspath(os.path.join(os.path.abspath(os.path.join(BASE_PATH_PARENT, os.pardir)), os.pardir))
+sys.path.insert(0, BASE_PATH)
+sys.path.append(BASE_PATH_PARENT)
+sys.path.append(ROOT_PATH)
 
 # import of own python classes
-from settings import DBCONFIG, ROUTE_PREFIX, SECRET_KEY
+from vkviewer.settings import DBCONFIG, ROUTE_PREFIX, SECRET_KEY
 from vkviewer.python.utils.logger import createLogger
 from vkviewer.python.security import EntryFactory, groupfinder
 from vkviewer.python.proxy import proxy_post

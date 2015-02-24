@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+
+"""
+This blablabla
+"""
 from pyramid.view import view_config
 
 # database imports

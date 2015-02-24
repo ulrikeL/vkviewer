@@ -3,6 +3,7 @@ Created on Jan 27, 2015
 
 @author: uli
 '''
+
 import unittest, os, locale, logging
 import gdal
 from gdalconst import *
@@ -20,7 +21,7 @@ class TestCreatezoomifyTiles(unittest.TestCase):
         cls.logger = createLogger('TestCreatezoomifyTiles', logging.DEBUG)
     
     def testIfFileExists(self):
-        print 'Test if file exists\n'
+        print 'Test if file exists.\n'
         self.assertTrue(os.path.exists(self.file),'Test file wasn\'t found')
         print '=============='      
 

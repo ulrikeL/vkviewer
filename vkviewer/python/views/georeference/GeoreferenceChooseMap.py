@@ -15,9 +15,10 @@ from vkviewer.python.models.messtischblatt.Metadata import Metadata
 
 ERROR_MSG = "Please check your request parameters or contact the administrator (%s)."%ADMIN_ADDR
 
-""" Returns a page for choosing a messtischblatt for georeferencering """
+
 @view_config(route_name='georeference-choose-map', renderer='georeference-choose-map.mako', permission='view',http_cache=0)
 def chooseGeoreferenceMap(request):
+    """ Returns a page for choosing a messtischblatt for georeferencering. """
     log.info('Call view getPage_chooseGeorefMtb.')
     if 'blattnr' in request.params:
         log.debug('Look for unreferenced messtischblaetter')
@@ -37,4 +38,4 @@ def chooseGeoreferenceMap(request):
     else: 
         log.error('Could not find a blattnr parameter value ...')
         log.error(traceback.format_exc())
-        raise HTTPBadRequest(ERROR_MSG) 
+        raise HTTPBadRequest(ERROR_MSG)

@@ -24,7 +24,25 @@ from vkviewer.python.script.CreateZoomifyTiles import processZoomifyTiles
     @TODO check if correct metadata is send at the beginning / validation
 """
 @view_config(route_name='upload', renderer='string', permission='moderator', match_param='action=push', request_method='POST')
+
 def store_image(request):
+    """
+    The function receive and store the parameters of an upload process/request.
+    
+    :param request: The parameters of an upload request
+    :type request: json
+    
+    The single steps are:
+        - Checks if mandatory metadata is send
+        - Register upload process to database
+        - Create an add map-object
+        - create filename for persisent saving
+        - save file to database
+        - create thumbnails and zoomify tiles
+        - Update map-Object and create metadata-Object
+        - create response
+        
+    """
     try:
         log.debug('Receive a upload request.')
         username = checkIsUser(request)
@@ -147,19 +165,18 @@ def store_image(request):
 def allowed_file(filename):
     """ Checks if the ending of an image file is within an allowed set of extensions.
     
-    @param String: filename
-    @return Boolean
+    :type filename: String
+    :rtype: Boolean
     """
     if '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS:
         return True
     return False
 
 def parseBoundingBoxFromRequest(params):
-    """ Parse the boundingbox parameter from the request and returns then in the form of an 
-        POSTGIS geometry string.
+    """ Parse the boundingbox parameter from the request and returns then in the form of an POSTGIS geometry string.
         
-    @param webob.multidict.NestedMultiDict: params
-    @return String 
+    :param params: webob.multidict.NestedMultiDict
+    :rtype: String 
     """ 
     if 'minlon' in params:
         lowX = params['minlon']
@@ -174,10 +191,11 @@ def parseBoundingBoxFromRequest(params):
     return "POLYGON((%s %s, %s %s, %s %s, %s %s, %s %s))"%(lowX, lowY, lowX, highY, highX, highY, highX, lowY, lowX, lowY)
 
 def saveFile(inputFile, filePath):
-    """ Method saves a given file to disk 
+    """ Method saves a given file to disk. 
     
-    @param cgi.FieldStorage: inputFile
-    @param String: filePath Path to which the file should be wrote
+    :type inputFile: cgi.FieldStorage
+    :param filePath: Path to which the file should be wrote
+    :type filePath: String
     """
     # We first write to a temporary file to prevent incomplete files from
     # being used.
